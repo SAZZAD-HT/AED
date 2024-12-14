@@ -1,0 +1,112 @@
+﻿@{
+    Layout = null;
+    ViewData["Title"] = "Download Bid Information";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewData["Title"]</title>
+    <script src="https://cdn.jsdelivr.net/npm/flowbite@1.4.7/dist/flowbite.js"></script>
+
+    <!-- Custom CSS and Tailwind CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+
+    <style>
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-image: url('@Url.Content("~/css/Images/white.jpg")');
+            background-size: cover;
+            background-position: center;
+            color: #333;
+            margin: 0;
+            padding: 50px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: auto;
+            padding: 30px;
+            border: 1px solid #eee;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
+            background-color: rgba(255, 255, 255, 0.9); /* Add slight transparency */
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 20px;
+        }
+
+            .header img {
+                max-width: 150px;
+            }
+
+        .super-admin-title {
+            font-size: 22px;
+            font-weight: bold;
+            color: #2c3e50;
+            text-align: center;
+        }
+
+        .logout-icon {
+            cursor: pointer;
+            font-size: 20px;
+            color: #ff0000;
+        }
+
+        .content {
+            margin-top: 40px;
+            text-align: center;
+        }
+
+            .content h2 {
+                font-size: 24px;
+                font-weight: bold;
+                color: #2c3e50;
+                margin-bottom: 20px;
+            }
+
+        .download-button {
+            margin-top: 20px;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <!-- Logo on the left -->
+            <img src="https://www.batbangladesh.com/imgs/BAT_Bangladesh_Logo.png" alt="Logo" />
+
+            <!-- Center Title: SUPER ADMIN -->
+            <div class="super-admin-title">
+                SUPER ADMIN
+            </div>
+
+            <!-- Logout icon on the right -->
+            <div class="logout-icon" onclick="window.location.href='/Auction/Logout'">
+                <i class="fas fa-sign-out-alt"></i> Logout
+            </div>
+        </div>
+
+        <div class="content">
+            <h2>Bidding Information Download</h2>
+            <div class="download-button">
+                <a href="@Url.Action("DownloadBidInformationExcelfile")" class="bg-blue-500 text-white px-5 py-2.5 rounded-lg hover:bg-blue-600">
+                    Download Excel
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+</body>
+
+</html>

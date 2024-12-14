@@ -1,0 +1,333 @@
+﻿@{
+    Layout = null; // Disables the default layout, removing the header and footer
+    ViewData["Title"] = "Product Details";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewData["Title"]</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css" />
+
+    <!-- Custom CSS and Tailwind CSS -->
+    <link rel="stylesheet" href="~/css/styles.css" asp-append-version="true" />
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+
+    <style>
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: #0e2b63;
+            color: white;
+            margin: 0;
+          /*   padding-top: 100px;
+            padding-bottom: 100px; */
+        }
+
+       
+        .modal {
+            display: none; /* Hidden by default */
+            position: fixed; /* Stay in place */
+            z-index: 1000; /* Sit on top */
+            left: 0;
+            top: 0;
+            width: 100%; /* Full width */
+            height: 100%; /* Full height */
+            overflow: auto; /* Enable scroll if needed */
+            background-color: rgb(0, 0, 0); /* Fallback color */
+            background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
+        }
+
+        .carousel-item img {
+            object-fit: contain; /* Ensures the image is fully visible within its container */
+            width: 100%; /* Full width of the container */
+            height: auto; /* Height auto adjusts to maintain aspect ratio */
+            display: block;
+            margin: 0 auto; /* Centers the image */
+        }
+
+        .carousel-container {
+            min-height: 300px; /* Adjust this value based on your design */
+        }
+
+        .full-screen-modal {
+            display: none;
+            position: fixed;
+            z-index: 2000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            align-items: center;
+            justify-content: center;
+        }
+
+            .full-screen-modal img {
+                max-width: 90%;
+                max-height: 90%;
+                margin: auto;
+            }
+
+        .carousel-controls {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            display: flex;
+            width: 100%;
+            justify-content: space-between;
+            padding: 0 10px;
+        }
+
+            .carousel-controls button {
+                background: rgba(0, 0, 0, 0.5);
+                border: none;
+                color: white;
+                font-size: 2rem;
+                cursor: pointer;
+                padding: 10px;
+            }
+
+      
+    </style>
+</head>
+
+<body class="flex flex-col items-center justify-center min-h-screen px-4">
+
+    <div class="max-w-5xl w-full mx-auto">
+        <!-- Image Carousel -->
+        <div id="controls-carousel" class="relative w-full">
+            <div class="relative h-58 overflow-hidden rounded-lg md:h-96">
+                @if (ViewBag?.Pic1 != null)
+                {
+                    <div class="carousel-item active duration-700 ease-in-out" data-carousel-item>
+                        <img src="@ViewBag.Pic1" asp-append-version="true" alt="Product Image 1" class="clickable-image">
+                    </div>
+                }
+                @if (ViewBag?.Pic2 != null)
+                {
+                    <div class="carousel-item hidden duration-700 ease-in-out" data-carousel-item>
+                        <img src="@ViewBag.Pic2" asp-append-version="true" alt="Product Image 2" class="clickable-image">
+                    </div>
+                }
+                @if (ViewBag?.Pic3 != null)
+                {
+                    <div class="carousel-item hidden duration-700 ease-in-out" data-carousel-item>
+                        <img src="@ViewBag.Pic3" asp-append-version="true" alt="Product Image 3" class="clickable-image">
+                    </div>
+                }
+                @if (ViewBag?.Pic4 != null)
+                {
+                    <div class="carousel-item hidden duration-700 ease-in-out" data-carousel-item>
+                        <img src="@ViewBag.Pic4" asp-append-version="true" alt="Product Image 4" class="clickable-image">
+                    </div>
+                }
+            </div>
+
+
+            <button type="button" class="absolute top-0 left-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group" data-carousel-prev>
+                <span class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-white/30 group-hover:bg-white/50">
+                    <svg class="w-4 h-4 text-white" fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 6 10">
+                        <path d="M5 1L1 5l4 4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                    </svg>
+                    <span class="sr-only">Previous</span>
+                </span>
+            </button>
+            <button type="button" class="absolute top-0 right-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group" data-carousel-next>
+                <span class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-white/30 group-hover:bg-white/50">
+                    <svg class="w-4 h-4 text-white" fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 6 10">
+                        <path d="M1 9l4-4-4-4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                    </svg>
+                    <span class="sr-only">Next</span>
+                </span>
+            </button>
+        </div>
+
+
+
+        <!-- Product Info -->
+        <div class="bg-white text-black shadow-md rounded-lg p-6 mt-6">
+            <h2 class="text-xl font-bold">Product Info</h2>
+            <p><strong>Item ID:</strong> <span id="itemId">@ViewBag.ItemId</span></p>
+            <p><strong>Item Name:</strong> @ViewBag.ItemName</p>
+            <p><strong>Brand:</strong> @ViewBag.Brand</p>
+            <p><strong>Model:</strong> @ViewBag.Model</p>
+            <p><strong>Colour:</strong> @ViewBag.Colour</p>
+            <p><strong>Location:</strong> @ViewBag.Location</p>
+            <p><strong>CC:</strong> @ViewBag.CC</p>
+            <p><strong>Type:</strong> @ViewBag.Type</p>
+            <p><strong>Car Number:</strong> @ViewBag.CarNuber</p>
+        </div>
+
+        <!-- Employee Info -->
+        <div class="bg-white text-black shadow-md rounded-lg p-6 mt-6">
+            <h2 class="text-xl font-bold">Employee Info</h2>
+            <p><strong>Name:</strong> @ViewBag.Employee?.Name</p>
+            <p><strong>Designation:</strong> @ViewBag.Employee?.Desigination</p>
+            <p><strong>Mobile Number:</strong> @ViewBag.Employee?.MobileNumber</p>
+            <p><strong>Employee Code:</strong> <span id="employeeCode">@ViewBag.Employee?.EmployeeCode</span></p>
+        </div>
+
+        <!-- Bidding Section -->
+        <div class="bg-white text-black shadow-md rounded-lg p-6 mt-6">
+            <h2 class="text-xl font-bold">Place Your Bid</h2>
+            <form id="bidForm">
+                <div class="mb-4">
+                    <label for="bidAmount" class="block text-sm font-medium text-gray-700">Bidding Amount:</label>
+                    <input type="number" id="bidAmount" name="bidAmount" required class="mt-1 block w-full p-2 border border-gray-300 rounded-md" placeholder="Enter your bidding amount">
+                    <span id="amountError" class="text-red-500 hidden">Amount must be greater than 0</span>
+                </div>
+                <div class="mb-4">
+                    <label for="tinNumber" class="block text-sm font-medium text-gray-700">TIN Number:</label>
+                    <input type="text" id="tinNumber" name="tinNumber" required maxlength="13" minlength="13" class="mt-1 block w-full p-2 border border-gray-300 rounded-md" placeholder="Enter your 13-digit TIN number">
+                    <span id="tinError" class="text-red-500 hidden">TIN number must be 13 digits long</span>
+                </div>
+
+                <!-- Toggle Modal Button -->
+                <button type="button" id="openModalBtn"
+                        class="block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none
+                    focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">
+                    Confirm Bid
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal HTML -->
+    <div id="modal" class="modal">
+        <h3 class="text-lg font-normal text-gray-500">Please Confirm Your Bid Details</h3>
+        <p><strong>Item ID:</strong> <span id="modalItemId"></span></p>
+        <p><strong>Employee Code:</strong> <span id="modalEmployeeCode"></span></p>
+        <p><strong>Bid Amount:</strong> <span id="modalBidAmount"></span></p>
+        <p><strong>TIN Number:</strong> <span id="modalTinNumber"></span></p>
+
+        <button id="confirmBtn" class="mt-4 bg-green-500 text-white rounded-md px-4 py-2">Confirm</button>
+        <button class="modal-close mt-4 bg-red-500 text-white rounded-md px-4 py-2">Cancel</button>
+    </div>
+
+    <script>
+        $(document).ready(function () {
+            let currentIndex = 0;
+            const items = $('[data-carousel-item]');
+            const totalItems = items.length;
+
+            // Function to update the carousel display
+            function updateCarousel() {
+                items.addClass('hidden'); // Hide all items
+                items.eq(currentIndex).removeClass('hidden'); // Show the current item
+            }
+
+            // Initial display
+            updateCarousel();
+
+            // Handle 'Next' button click
+            $('[data-carousel-next]').on('click', function () {
+                currentIndex = (currentIndex + 1) % totalItems;
+                updateCarousel();
+            });
+
+            // Handle 'Previous' button click
+            $('[data-carousel-prev]').on('click', function () {
+                currentIndex = (currentIndex - 1 + totalItems) % totalItems;
+                updateCarousel();
+            });
+        }); $(document).ready(function () {
+            let currentIndex = 0;
+            const items = $('[data-carousel-item]');
+            const totalItems = items.length;
+
+            // Show the next image in the carousel
+            function showNextImage() {
+                items.eq(currentIndex).addClass('hidden');
+                currentIndex = (currentIndex + 1) % totalItems; // Cycle through the images
+                items.eq(currentIndex).removeClass('hidden');
+            }
+
+            // Auto change every 3 seconds
+            setInterval(showNextImage, 3000);
+
+            // Manual previous and next buttons
+            $('[data-carousel-prev]').on('click', function () {
+                items.eq(currentIndex).addClass('hidden');
+                currentIndex = (currentIndex - 1 + totalItems) % totalItems;
+                items.eq(currentIndex).removeClass('hidden');
+            });
+
+            $('[data-carousel-next]').on('click', function () {
+                items.eq(currentIndex).addClass('hidden');
+                currentIndex = (currentIndex + 1) % totalItems;
+                items.eq(currentIndex).removeClass('hidden');
+            });
+        });
+        // Function to convert number to words
+        function convertNumberToWords(num) {
+            var a = ['', 'One ', 'Two ', 'Three ', 'Four ', 'Five ', 'Six ', 'Seven ', 'Eight ', 'Nine ', 'Ten ', 'Eleven ', 'Twelve ', 'Thirteen ', 'Fourteen ', 'Fifteen ', 'Sixteen ', 'Seventeen ', 'Eighteen ', 'Nineteen '];
+            var b = ['', '', 'Twenty', 'Thirty', 'Forty', 'Fifty', 'Sixty', 'Seventy', 'Eighty', 'Ninety'];
+
+
+            if ((num = num.toString()).length > 9) return 'Enter Valid Amount';
+            n = ('000000000' + num).substr(-9).match(/^(\d{2})(\d{2})(\d{2})(\d{1})(\d{2})$/);
+            if (!n) return; var str = '';
+            str += (n[1] != 0) ? (a[Number(n[1])] || b[n[1][0]] + ' ' + a[n[1][1]]) + 'Crore ' : '';
+            str += (n[2] != 0) ? (a[Number(n[2])] || b[n[2][0]] + ' ' + a[n[2][1]]) + 'Lakh ' : '';
+            str += (n[3] != 0) ? (a[Number(n[3])] || b[n[3][0]] + ' ' + a[n[3][1]]) + 'Thousand ' : '';
+            str += (n[4] != 0) ? (a[Number(n[4])] || b[n[4][0]] + ' ' + a[n[4][1]]) + 'Hundred ' : '';
+            str += (n[5] != 0) ? ((str != '') ? 'and ' : '') + (a[Number(n[5])] || b[n[5][0]] + ' ' + a[n[5][1]]) + 'Taka Only' : '';
+            return str;
+        }
+
+
+        $(document).ready(function () {
+            $('#openModalBtn').on('click', function () {
+                const bidAmount = parseInt($('#bidAmount').val(), 10);
+                const tinNumber = $('#tinNumber').val();
+
+                // Validation checks
+                if (bidAmount <= 0) {
+                    $('#amountError').removeClass('hidden');
+                    return;
+                } else {
+                    $('#amountError').addClass('hidden');
+                }
+
+                if (tinNumber.length !== 13) {
+                    $('#tinError').removeClass('hidden');
+                    return;
+                } else {
+                    $('#tinError').addClass('hidden');
+                }
+
+                // Show modal with confirmation details
+                $('#modalItemId').text($('#itemId').text());
+                $('#modalEmployeeCode').text($('#employeeCode').text());
+                $('#modalBidAmount').text(convertNumberToWords(bidAmount));
+                $('#modalTinNumber').text(tinNumber);
+
+                $('#modal').modal({
+                    fadeDuration: 100,
+                    fadeDelay: 0.50
+                });
+            });
+
+            $('#confirmBtn').on('click', function () {
+                const itemId = $('#itemId').text();
+                const bidAmount = $('#bidAmount').val();
+                const tinNumber = $('#tinNumber').val();
+                const employeeCode = $('#employeeCode').text();
+
+                // Redirect to the confirmation page with parameters
+                window.location.href = `/Auction/ProductConfirmPage2?ItemId=${itemId}&bidAmount=${bidAmount}&TinNumber=${tinNumber}&UserID=${0}`;
+            });
+
+            $('.modal-close').on('click', function () {
+                $.modal.close();
+            });
+        });
+    </script>
+</body>
+
+</html>
