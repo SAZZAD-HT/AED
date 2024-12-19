@@ -7,7 +7,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
-
+builder.Services.AddHttpContextAccessor();
 // Add DbContext with connection string
 builder.Services.AddDbContext<AedDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("Development")));
@@ -46,7 +46,7 @@ app.UseAuthorization();
 // Map default controller route
 app.MapControllerRoute(
      name: "default",
-     pattern: "{controller=AED}/{action=Login}/{id?}");
-   // pattern: "{controller=Auction}/{action=DownloadBidInformationExcel}");
+      pattern: "{controller=AED}/{action=Login}/{id?}");
+   // pattern: "{controller=AED}/{action=Entry}");
 
 app.Run();

@@ -172,11 +172,9 @@ namespace AuctionManagement_System.Migrations
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
 
-                    b.Property<decimal>("Length")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<decimal>("UnitPrice")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("ItemNo");
 
@@ -191,40 +189,37 @@ namespace AuctionManagement_System.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ProductId"));
 
-                    b.Property<DateTime>("ChangedExpectedDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("ExpectedShipment")
-                        .HasColumnType("datetime2");
-
                     b.Property<string>("FinishType")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<decimal>("FreeStock")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<int?>("FreeStock")
+                        .HasColumnType("int");
 
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
 
-                    b.Property<decimal>("OrderQty")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<string>("Length")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<decimal>("PrdStock")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<decimal>("Reserve")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<int?>("PrdStock")
+                        .HasColumnType("int");
 
-                    b.Property<int>("Seq")
+                    b.Property<int>("Price")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("Reserve")
                         .HasColumnType("int");
 
                     b.Property<string>("Shade")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<decimal>("Stock")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<int?>("Stock")
+                        .HasColumnType("int");
 
                     b.Property<string>("TKT")
                         .IsRequired()
@@ -242,6 +237,9 @@ namespace AuctionManagement_System.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("SId"));
+
+                    b.Property<int>("CID")
+                        .HasColumnType("int");
 
                     b.Property<string>("ShipToCode")
                         .IsRequired()
@@ -270,6 +268,10 @@ namespace AuctionManagement_System.Migrations
 
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Password")
                         .IsRequired()

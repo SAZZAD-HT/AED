@@ -1,0 +1,499 @@
+﻿@{
+    ViewData["Title"] = "Entry";
+   
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Entry</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
+
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <style>
+        body {
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        .btn-submit {
+            transition: background-color 0.3s ease;
+        }
+
+        .btn-submit:hover {
+            background-color: #0056b3;
+        }
+
+        .section-title {
+            background-color: #f8f9fa;
+            padding: 10px;
+            border-radius: 5px;
+        }
+
+        .list-group {
+            position: absolute;
+            z-index: 1000;
+            width: 100%;
+        }
+    </style>
+</head>
+
+<body>
+    <form id="entryForm" method="post" onsubmit="submitForm(event)">
+    <div class="container mt-5">
+        <div class="mt-4 p-4 border rounded">
+           
+                <div class="row g-3 align-items-center">
+                    <!-- Customer Input -->
+                    <div class="col-md-2">
+                        <label for="Customer" class="form-label">Customer</label>
+                        <select id="Customer" name="Customer" class="form-select">
+                            <option value="">Select Customer</option>
+                        </select>
+                    </div>
+
+                    <!-- Ship To Dropdown -->
+                    <div class="col-md-2">
+                        <label for="ShipTo" class="form-label">Ship To</label>
+                        <select id="ShipTo" name="ShipTo" class="form-select">
+                            <option value="">Select Ship To</option>
+                        </select>
+                    </div>
+
+                    <!-- Buyer Input -->
+                    <div class="col-md-3">
+                        <label for="Buyer" class="form-label">Buyer</label>
+                        <select id="Buyer" name="Buyer" class="form-select">
+                            <option value="">Select Buyer</option>
+                        </select>
+                    </div>
+
+                    <!-- Additional Inputs -->
+                    <div class="col-md-2">
+                        <label for="Dyecond" class="form-label">Dyecond</label>
+                        <select id="Dyecond" name="Dyecond" class="form-select">
+                            <option value="nai">Select Dyecond</option>
+                            <option value="Nor-Normal">Nor-Normal</option>
+                            <option value="Normal">Normal</option>
+                        </select>
+                    </div>
+                    <div class="col-md-2">
+                        <label for="OrderType" class="form-label">Order Type</label>
+                        <select id="OrderType" name="OrderType" class="form-select">
+                            <option value="Select Order Type">Select Order Type</option>
+                            <option value="SMP=Sample Order">SMP=Sample Order</option>
+                            <option value="Bulk Orde">Bulk Order</option>
+                        </select>
+                    </div>
+                    <div class="col-md-3">
+                        <label for="TrackingNo" class="form-label">Tracking No</label>
+                        <input type="text" id="TrackingNo" name="TrackingNo" class="form-control" maxlength="100" />
+                    </div>
+                    <div class="col-md-3">
+                        <label for="Decription" class="form-label">Decription</label>
+                        <input type="text" id="Decription" name="Decription" class="form-control" maxlength="100" />
+                    </div>
+                    <div class="col-md-3">
+                        <label for="OrderNo" class="form-label">Order No</label>
+                        <input type="text" id="OrderNo" name="OrderNo" class="form-control" maxlength="100" />
+                    </div>
+                    <div class="col-md-3">
+                        <label for="Cus-Po" class="form-label">Cus-Po</label>
+                        <input type="text" id="Cus-Po" name="Cus-Po" class="form-control" maxlength="100" />
+                    </div>
+                </div>
+               
+            
+        </div>
+    </div>
+        <div class="container mt-5">
+            <div class="mt-4 p-4 border rounded">
+
+                <div class="row g-3 align-items-center">
+                    <div class="col-md-2">
+                        <label for="Product" class="form-label">Product</label>
+                        <select id="Product" name="Product" class="form-select">
+                            <option value="">Select Product</option>
+                        </select>
+                    </div>
+
+                    <div class="col-md-2">
+                        <label for="TKT" class="form-label">TKT</label>
+                        <input type="text" id="TKT" name="TKT" class="form-control" maxlength="100" readonly />
+                    </div>
+
+                    <div class="col-md-3">
+                        <label for="Length" class="form-label">Length</label>
+                        <input type="text" id="Length" name="Length" class="form-control" maxlength="100" readonly />
+                        
+                    </div>
+
+                    <div class="col-md-2">
+                        <label for="FinishType" class="form-label">FinishType</label>
+                        <select id="FinishType" name="FinishType" class="form-select">
+                            <option value="nai">Select FinishType</option>
+                            <option value="test1">Test1</option>
+                            <option value="Test2">Test2</option>
+                        </select>
+                    </div>
+                    <div class="col-md-3">
+                        <label for="Shade" class="form-label">Shade</label>
+                        <input type="text" id="Shade" name="Shade" class="form-control" maxlength="100" readonly />
+
+                    </div>
+                    <div class="col-md-3">
+                        <label for="Item No" class="form-label">Item No</label>
+                        <input type="text" id="ItemNo" name="ItemNo" class="form-control" maxlength="100" />
+                    </div>
+                    <div class="col-md-3">
+                        <label for="OrderQty" class="form-label">Order Qty</label>
+                        <input type="text" id="OrderQty" name="OrderQty" class="form-control" maxlength="100" />
+                    </div>
+                    <div class="col-md-3">
+                        <label for="ExpShipment" class="form-label">ExpShipment</label>
+                        <input type="date" id="ExpShipment" name="ExpShipment" class="form-control" maxlength="100" />
+                    </div>
+                    <div class="col-md-2 d-flex align-items-end">
+                        <button id="Load" type="button" onclick="AddTotable()" class="btn btn-success w-100">Load</button>
+                    </div>
+                    <div class="mt-4" id="testTableSection">
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>Item Name</th>
+                                    <th>Description</th>
+                                    <th>Exp. Shipment</th>
+                                    <th>Change Exp. Date</th>
+                                    <th>Order Qty</th>
+                                    <th>Free Stock</th>
+                                    <th>Unit Price</th>
+                                    <th>Reserve</th>
+                                    <th>Location</th>
+                                    <th>PRD Stock</th>
+                                    <th>Action</th>
+                                    <th>SEQ</th>
+                                    
+
+                                </tr>
+                            </thead>
+                            <tbody id="testTableBody">
+                                <!-- Rows will be dynamically added here -->
+                            </tbody>
+                        </table>
+
+            </div>
+        </div>
+                <div class="container mt-4">
+                    <div class="d-flex justify-content-end">
+                        <button type="submit" class="btn btn-primary btn-submit">Submit</button>
+                    </div>
+                </div>
+
+    </form>
+    <!-- Scripts -->
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        var Header =
+        [
+            {
+            ItemNo:0,
+            ItemName:null,
+            ItemDescription:null,
+            ExpShipment:null,
+            ChngExpShipment:null,
+            OrderQty:0,
+            FreeStock:0,
+            UnitPrice:0,
+            Reserve:0,
+            Location:null,
+            PrdStock:null,
+            Seq:1,
+            ProductId:0,
+            TKT:null,
+            length:0,
+
+        }]
+            var pp = [];
+               document.addEventListener("DOMContentLoaded", function () {
+            // Initially populate Customer, Buyer, and Product dropdowns
+            loadCustomerDropdown();
+            loadBuyerDropdown();
+            loadProductDropdown();
+
+            // Event listener for selecting a product
+            document.getElementById('Product').addEventListener('change', function () {
+                const productId = this.value;  // Get selected product ID
+                if (productId) {
+                    fetchProductDetails(productId); // Fetch product details based on selected product
+                } else {
+                    resetFormFields();
+                }
+            });
+
+            // Fetch Customer Suggestions on input
+            document.getElementById('Customer').addEventListener('input', function () {
+                const customerName = this.value;
+                if (customerName) {
+                    fetch(`/AED/GetShipCustomerDDL?CID=${customerName}`)
+                        .then(response => response.json())
+                        .then(data => {
+                            let options = '<option value="">Select Ship To</option>';
+                            data.forEach(shipTo => {
+                                options += `<option value="${shipTo.sId}">${shipTo.shipToName}</option>`;
+                            });
+                            document.getElementById('ShipTo').innerHTML = options;
+                            document.getElementById('ShipTo').style.display = 'block';
+                        });
+                } else {
+                    document.getElementById('ShipTo').innerHTML = '<option value="">Select Ship To</option>';
+                    document.getElementById('ShipTo').style.display = 'none';
+                }
+            });
+
+            // Select Customer and Fetch ShipTo Options
+            document.addEventListener('click', function (e) {
+                if (e.target.classList.contains('customer-item')) {
+                    e.preventDefault();
+                    const selectedCustomer = e.target.textContent;
+                    const customerId = e.target.dataset.id;
+                    document.getElementById('Customer').value = selectedCustomer;
+                    document.getElementById('customerSuggestions').style.display = 'none';
+
+                    fetch(`/AED/GetShipCustomerDDL?CID=${customerId}`)
+                        .then(response => response.json())
+                        .then(data => {
+                            let options = '<option value="">Select Ship To</option>';
+                            data.forEach(shipTo => {
+                                options += `<option value="${shipTo.sId}">${shipTo.shipToName}</option>`;
+                            });
+                            document.getElementById('ShipTo').innerHTML = options;
+                        });
+                }
+
+                if (e.target.classList.contains('buyer-item')) {
+                    e.preventDefault();
+                    const selectedBuyer = e.target.textContent;
+                    document.getElementById('Buyer').value = selectedBuyer;
+                    document.getElementById('buyerSuggestions').style.display = 'none';
+                }
+            });
+
+            // Load dropdown functions
+            function loadCustomerDropdown() {
+                fetch('/AED/GetCustomerDDL')
+                    .then(response => response.json())
+                    .then(data => {
+                        let options = '<option value="">Select Customer</option>';
+                        data.forEach(customer => {
+                            options += `<option value="${customer.customerId}">${customer.customerName}</option>`;
+                        });
+                        document.getElementById('Customer').innerHTML = options;
+                    });
+            }
+
+            function loadBuyerDropdown() {
+                fetch('/AED/GetBuyerDDL')
+                    .then(response => response.json())
+                    .then(data => {
+                        let options = '<option value="">Select Buyer</option>';
+                        data.forEach(buyer => {
+                            options += `<option value="${buyer.buyerId}">${buyer.buyerName}</option>`;
+                        });
+                        document.getElementById('Buyer').innerHTML = options;
+                    });
+            }
+
+            function loadProductDropdown() {
+                fetch('/AED/GetProductDDL')
+                    .then(response => response.json())
+                    .then(data => {
+                        let options = '<option value="">Select Product</option>';
+                        data.forEach(product => {
+                            options += `<option value="${product.productId}">${product.name}</option>`;
+                        });
+                        document.getElementById('Product').innerHTML = options;
+                    })
+                    .catch(error => console.error('Error fetching products:', error));
+            }
+                
+
+        function fetchProductDetails(productId) {
+            debugger;
+
+            fetch(`/AED/GetProductById?id=${productId}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data) {
+                        pp = data; // Store the data in pp
+
+                        // Access the properties from the correct data object
+                        document.getElementById('TKT').value = data.tkt;
+                        document.getElementById('Length').value = data.length;
+                        document.getElementById('Shade').value = data.shade;
+                        document.getElementById('FinishType').value = data.finishType;
+                        
+                    }
+                })
+                .catch(error => console.error('Error fetching product details:', error));
+        }
+
+           
+        });
+
+       async  function AddTotable() {
+
+            const productId = document.getElementById('Product').value;
+            const itemNo = document.getElementById('ItemNo').value;
+            const orderQty = document.getElementById('OrderQty').value;
+            const expShipment = document.getElementById('ExpShipment').value;
+            const tkt = document.getElementById('TKT').value;
+            const length = document.getElementById('Length').value;
+            const shade = document.getElementById('Shade').value;
+            const finishType = document.getElementById('FinishType').value;
+
+            // Ensure all fields are filled
+            if (!productId || !itemNo || !orderQty || !expShipment || !tkt || !length || !shade) {
+                alert('Please fill all the required fields.');
+                return;
+            }
+
+            try {
+                // Fetch item details asynchronously
+                const itemdata = await  fetchItemData(itemNo);
+                const productData =await   fetchProductData(productId);
+                console.log(itemdata);
+                // Create a new row
+                const tableBody = document.querySelector("#testTableBody");
+                const newRow = document.createElement("tr");
+
+                newRow.innerHTML = `
+                    <td>${itemdata.name}</td>
+                    <td>${itemdata.description}</td>
+                    <td>${expShipment}</td>
+                    <td><input type="date" value="${expShipment}" class="form-control" /></td>
+                    <td>${orderQty}</td>
+                    <td>${productData.freeStock}</td>                   
+                    <td>${productData.price}</td>
+                    <td>${productData.prdStock}</td>
+                    <td>${productData.stock}</td>
+                    <td>${productData.stock}</td>
+                    <td> <select id="Loacation" name="Loacation" class="form-select">
+          
+                            <option value="DHA">DHA</option>
+                            <option value="Test2">KU</option>
+                        </select></td>
+                          <td>${productData.stock}</td>
+                    <td><button type="button" class="btn btn-danger btn-sm" onclick="removeRow(this)">Remove</button></td>
+                   
+                `;
+
+                tableBody.appendChild(newRow);
+
+                resetFormFields();
+            } catch (error) {
+                console.error("Error adding to table:", error);
+            }
+        }
+
+        // Fetch item data
+               // Fetch item data by item number
+        async function fetchItemData(itemNo) {
+            try {
+                const response = await fetch(`/AED/GetItemById?id=${itemNo}`);
+                if (!response.ok) {
+                    throw new Error(`Failed to fetch item data: ${response.status}`);
+                }
+                const data = await response.json();
+                return data;
+            } catch (error) {
+                console.error(error);
+                return null; // Handle the error gracefully
+            }
+        }
+
+        // Fetch product data by product ID
+        async function fetchProductData(productId) {
+            try {
+                const response = await fetch(`/AED/GetProductById?id=${productId}`);
+                if (!response.ok) {
+                    throw new Error(`Failed to fetch product data: ${response.status}`);
+                }
+                const data = await response.json();
+                return data;
+            } catch (error) {
+                console.error(error);
+                return null; // Handle the error gracefully
+            }
+        }
+
+        function resetFormFields() {
+            document.getElementById('TKT').value = '';
+            document.getElementById('Length').value = '';
+            document.getElementById('Shade').value = '';
+            document.getElementById('FinishType').value = 'nai';
+            document.getElementById('ItemNo').value = '';
+            document.getElementById('OrderQty').value = '';
+            document.getElementById('ExpShipment').value = '';
+        }
+         function removeRow(button) {
+            const row = button.closest('tr');
+            row.remove();
+        }
+       function submitForm(event) {
+           debugger;
+            event.preventDefault();
+
+            const formData = {
+                CID: document.getElementById('Customer').value,
+                SId: document.getElementById('ShipTo').value,
+                BId: document.getElementById('Buyer').value,
+                DyeCond: document.getElementById('Dyecond').value,
+                OrderType: document.getElementById('OrderType').value,
+                TrackingNo: document.getElementById('TrackingNo').value,
+                Description: document.getElementById('Decription').value,
+                OrderNo: document.getElementById('OrderNo').value,
+                CusPo: document.getElementById('Cus-Po').value,
+                DataSaveRows: extractTableData() // Function to extract rows
+            };
+
+            fetch('/AED/Entry', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(formData)
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.redirectUrl) {
+                    window.location.href = data.redirectUrl;
+                } else {
+                    alert('Error saving data.');
+                }
+            })
+            .catch(error => console.error('Error:', error));
+        }
+
+               function extractTableData() {
+            const rows = document.querySelectorAll("#testTableBody tr");
+            return Array.from(rows).map(row => ({
+              
+                ItemNo: row.cells[0]?.innerText.trim(),
+                ProductId: row.cells[1]?.innerText.trim(),
+                FinishType: row.cells[2]?.innerText.trim(),
+                OrderQty: row.cells[4]?.innerText.trim(),
+                ExpectedShipment: row.cells[2]?.querySelector('input')?.value || row.cells[2]?.innerText.trim(),
+                ChangedShipmentDate: null,
+                FreeStock: row.cells[5]?.innerText.trim(),
+                seq: row.cells[11]?.innerText.trim()
+            }));
+        }
+
+
+    </script>
+
+</body>
+</html>

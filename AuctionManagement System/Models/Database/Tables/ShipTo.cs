@@ -8,5 +8,6 @@ namespace AuctionManagement_System.Models.Database.Tables
         public int SId { get; set; }
         public string ShipToCode { get; set; }
         public string ShipToName { get; set; }
+        public int CID { get; set; }
     }
 }

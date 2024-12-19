@@ -1,9 +1,11 @@
-﻿<!DOCTYPE html>
+﻿@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - AuctionManagement_System</title>
+    <title>@ViewData["Title"] - AED</title>
 
     <!-- Tailwind CSS CDN -->
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
@@ -58,46 +60,34 @@
         }
     </style>
 </head>
-<body class="bg-gray-100 font-sans leading-normal tracking-normal">
+<body class="bg-blue-100 font-sans leading-normal tracking-normal">
     <!-- Header with Logo and Navigation Menu -->
-    <header class="bg-white shadow mb-6">
+    <header class="bg-blue shadow mb-6">
         <nav class="container mx-auto flex justify-between items-center py-4">
-
-            <!-- Centered Logo and Title with Slide-In Animation -->
+            <!-- Centered Logo and Title -->
             <div class="flex items-center mx-auto slide-in">
-                <img src="~/css/Images/BAT_Bangladesh_Logo.png" alt="BAT Logo" class="h-12 mr-4" /> <!-- Update this with your logo path -->
-                <span class="text-3xl font-bold text-gray-800">Auction Management</span>
+                <img src="~/css/Images/AED.png" alt="BAT Logo" class="h-12 mr-4" /> <!-- Update this with your logo path -->
+                <span class="text-3xl font-bold text-gray-800">Entry</span>
             </div>
 
-            <!-- Right-aligned Menu with Uniform Button Sizes and Responsive Wrapping -->
-            <div class="flex space-x-3 text-gray-700 items-center flex-wrap">
-
-                <a href="/Auction/EmployeeInfoSave" class="text-sm text-center border-2 border-[#0e2b63] px-4 py-2 rounded-md hover:bg-[#0e2b63] hover:text-red transition duration-300 ease-in-out w-36 whitespace-normal">
-                    Employee Add
-                </a>
-                <a href="/Auction/IteamSave" class="text-sm text-center border-2 border-[#0e2b63] px-4 py-2 rounded-md hover:bg-[#0e2b63] hover:text-red transition duration-300 ease-in-out w-36 whitespace-normal">
-                    Item Add
-                </a>
-                <a href="/Auction/EmployeeList" class="text-sm text-center border-2 border-[#0e2b63] px-4 py-2 rounded-md hover:bg-[#0e2b63] hover:text-red transition duration-300 ease-in-out w-36 whitespace-normal">
-                     Uploaded Employees
-                </a>
-                <a href="/Auction/ItemList" class="text-sm text-center border-2 border-[#0e2b63] px-4 py-2 rounded-md hover:bg-[#0e2b63] hover:text-red transition duration-300 ease-in-out w-36 whitespace-normal">
-                   Uploaded Auction Item
-                </a>
-                <a href="/Admin/Index" class="text-sm text-center border-2 border-[#0e2b63] px-4 py-2 rounded-md hover:bg-[#0e2b63] hover:text-red transition duration-300 ease-in-out w-36 whitespace-normal">
-                    Manage Admin
-                </a>
-                <a href="/Auction/DeleteBid" class="text-sm text-center border-2 border-[#0e2b63] px-4 py-2 rounded-md hover:bg-[#0e2b63] hover:text-red transition duration-300 ease-in-out w-36 whitespace-normal">
-                    Delete Bid
-                </a>
+            <!-- Right-aligned User Info and Logout -->
+            <div class="flex items-center space-x-6 text-gray-700">
+                <!-- User Info -->
+                <div class="flex items-center space-x-2">
+                    <img src="~/css/Images/UserIcon.png" alt="User Icon" class="h-8 w-8 rounded-full" /> <!-- Replace with your user icon path -->
+                    <span class="text-sm font-semibold">
+                        @HttpContextAccessor.HttpContext.Session.GetString("UseName") 
+                    </span>
+                </div>
 
                 <!-- Logout Button -->
-                <a href="/Auction/Logout" class="text-sm text-center text-red-600 border border-red-600 px-4 py-2 rounded-md hover:bg-red-600 hover:text-red transition duration-300 ease-in-out w-36 whitespace-normal">
+                <a href="/Auction/Logout" class="text-sm text-red-600 border border-red-600 px-4 py-2 rounded-md hover:bg-red-600 hover:text-white transition duration-300 ease-in-out">
                     Logout
                 </a>
             </div>
         </nav>
     </header>
+
 
     <!-- Main Content Area with Fade-in Animation -->
     <main class="container mx-auto fade-in">
@@ -106,19 +96,7 @@
         </div>
     </main>
 
-    <!-- Footer -->
-    <footer class="bg-white rounded-lg shadow dark:bg-gray-900 m-4">
-        <div class="w-full max-w-screen-xl mx-auto p-4 md:py-8">
-            <div class="sm:flex sm:items-center sm:justify-between">
-                <a href="~/css/Images/IDT_blue.png" class="flex items-center mb-4 sm:mb-0 space-x-3 rtl:space-x-reverse">
-                    <img src="~/css/Images/Information_blue.png" class="h-8" alt="Flowbite Logo" />
-                </a>
-            </div>
-            <hr class="my-6 border-gray-200 sm:mx-auto dark:border-gray-700 lg:my-8" />
-            <span class="block text-sm text-gray-500 sm:text-center dark:text-gray-400">© 2024 <a href="https://www.batbangladesh.com/" class="hover:underline">B A T™</a>. All Rights Reserved.</span>
-        </div>
-    </footer>
-
+   
     <!-- Optional: Add your custom JS or other scripts below -->
     <script src="~/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
