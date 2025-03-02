@@ -64,6 +64,7 @@ namespace AuctionManagement_System.Controllers
             return View();
         }
         [HttpPost]
+
         public IActionResult Entry([FromBody]  SAVEdata d)
         {
             DataSaveHeader dataSaveHeader = new DataSaveHeader();
